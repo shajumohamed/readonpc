@@ -5,8 +5,16 @@ import './App.css';
 import { ShowQRCode } from './components/ShowQRCode';
 import { ReadQRCode } from './components/ReadQRCode';
 
-//const client = new W3CWebSocket('ws://localhost:3001/');
-const client = new W3CWebSocket('wss://'+window.location.host);
+let client:any = null;
+if(process.env.NODE_ENV == 'production')
+{
+   client = new W3CWebSocket('wss://'+window.location.host);
+}
+else
+{
+   client = new W3CWebSocket('ws://localhost:3001/');
+}
+
 function App() {
   const [clientID,setClientID]=React.useState<string>('');
   const [data, setData] = React.useState(null);
