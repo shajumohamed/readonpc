@@ -10,7 +10,7 @@ export const ShowQRCode=(props:ShowQRCodeProps)=>{
 
     return(
         <>
-            <QRCode   id="QRCode" value={window.location.origin+"?pcid="+props.clientId} />
+            <QRCode includeMargin={true} size={256}  level="M"  id="QRCode" value={window.location.origin+"?pcid="+props.clientId} />
         </>
     );
 }
