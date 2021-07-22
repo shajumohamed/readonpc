@@ -1,14 +1,23 @@
 import React from 'react';
+import { w3cwebsocket as W3CWebSocket } from "websocket";
 import logo from './logo.svg';
 import './App.css';
 import { ShowQRCode } from './components/ShowQRCode';
 import { ReadQRCode } from './components/ReadQRCode';
 
+//const client = new W3CWebSocket('ws://localhost:3001/');
+const client = new W3CWebSocket('wss://'+window.location.host);
 function App() {
   const [clientID,setClientID]=React.useState<string>('');
   const [data, setData] = React.useState(null);
   React.useEffect(()=>{
     setClientID(makeid(10));
+    client.onopen = () => {
+      console.log('WebSocket Client Connected');
+    };
+    client.onmessage = (message:any) => {
+      console.log(message);
+    };
   },[])
 
   React.useEffect(() => {
@@ -19,7 +28,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <ShowQRCode clientId={"http://localhost:3000/?pcID="+clientID}></ShowQRCode>
+        <ShowQRCode clientId={window.location.origin+"?pcID="+clientID}></ShowQRCode>
         <ReadQRCode></ReadQRCode>
         {/* <img src={logo} className="App-logo" alt="logo" />
         <p>
