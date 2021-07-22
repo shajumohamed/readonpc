@@ -5,55 +5,61 @@ import './App.css';
 import { ShowQRCode } from './components/ShowQRCode';
 import { ReadQRCode } from './components/ReadQRCode';
 
-export interface WebSocketMessage{
-  action:string;
-  body:any;
+export interface WebSocketMessage {
+  action: string;
+  body: any;
 }
 
-let client:any = null;
-if(process.env.NODE_ENV == 'production')
-{
-   client = new W3CWebSocket('wss://'+window.location.host);
+let client: any = null;
+if (process.env.NODE_ENV == 'production') {
+  client = new W3CWebSocket('wss://' + window.location.host);
 }
-else
-{
-   client = new W3CWebSocket('ws://localhost:3001/');
+else {
+  client = new W3CWebSocket('ws://localhost:3001/');
 }
 
 function App() {
-  const [clientID,setClientID]=React.useState<string>('');
+  const [clientID, setClientID] = React.useState<string>('');
   const [data, setData] = React.useState(null);
-  React.useEffect(()=>{
-    
+  const [scanMode, setScanMode] = React.useState<boolean>(false);
+  React.useEffect(() => {
+
     client.onopen = () => {
-      let tempID=makeid(10);
+      let tempID = makeid(10);
       setClientID(tempID);
       console.log('WebSocket Client Connected');
-      let sendObj={} as WebSocketMessage;
-      sendObj.action="ClientRegistration";
-      sendObj.body={'ID':tempID};
+      let sendObj = {} as WebSocketMessage;
+      sendObj.action = "ClientRegistration";
+      sendObj.body = { 'ID': tempID };
       client.send(JSON.stringify(sendObj));
     };
-    client.onmessage = (message:any) => {
+    client.onmessage = (message: any) => {
       console.log(message);
-      let datObj=JSON.parse(message.data);
-      if(datObj.action=="SendMessage")
-      {
-        window.location=datObj.body.link;
+      let datObj = JSON.parse(message.data);
+      if (datObj.action == "SendMessage") {
+        window.location = datObj.body.link;
       }
     };
-  },[])
+  }, [])
 
   React.useEffect(() => {
     fetch("/api")
       .then((res) => res.json())
-      .then((data) => {setData(data.message);console.log(data)});
+      .then((data) => { setData(data.message); console.log(data) });
   }, []);
+
+  function toggleScanMode() {
+    setScanMode(!scanMode);
+  }
   return (
     <div className="App">
       <header className="App-header">
-        <ShowQRCode clientId={clientID}></ShowQRCode>
-        <ReadQRCode client={client}></ReadQRCode>
+        {!scanMode && <ShowQRCode clientId={clientID}></ShowQRCode>
+        }
+        <button onClick={() => toggleScanMode()}>{scanMode ? "View Here" : "Send Link From Here"}</button>
+        {scanMode &&
+          <ReadQRCode client={client}></ReadQRCode>
+        }
         {/* <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
@@ -72,16 +78,16 @@ function App() {
   );
 }
 
-function makeid(length:number) {
+function makeid(length: number) {
   //return "1234567890";
-  var result           = '';
-  var characters       = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  var result = '';
+  var characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
   var charactersLength = characters.length;
-  for ( var i = 0; i < length; i++ ) {
-    result += characters.charAt(Math.floor(Math.random() * 
-charactersLength));
- }
- return result;
+  for (var i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() *
+      charactersLength));
+  }
+  return result;
 }
 
 export default App;
