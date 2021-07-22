@@ -47,7 +47,7 @@ export const ReadQRCode = (props: ReadQRCodeProps) => {
       {result != "" &&
         <>
           <textarea onChange={handleChanged.bind(this)} ></textarea>
-          <button value="Send" onClick={() => sendClicked()}>Open Link</button>
+          <button value="Send" onClick={() => sendClicked()}>Read On PC</button>
         </>
       }
       <p>{result}</p>
