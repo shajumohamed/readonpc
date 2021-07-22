@@ -52,7 +52,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <ShowQRCode clientId={window.location.origin+"?pcID="+clientID}></ShowQRCode>
+        <ShowQRCode clientId={clientID}></ShowQRCode>
         <ReadQRCode client={client}></ReadQRCode>
         {/* <img src={logo} className="App-logo" alt="logo" />
         <p>
