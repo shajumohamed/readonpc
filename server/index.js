@@ -48,8 +48,11 @@ wss.on('connection', function (client) {
   /** incomming message */
   client.on('message', function (message) {
     /** broadcast message to all clients */
+    console.log("Recieved Message");
+    console.log(message);
     let messageObj = JSON.parse(message);
     if (messageObj.action == "ClientRegistration") {
+      console.log("Regsistering new client");
       CLIENTSWITHIDS.push({ ID: messageObj.body.ID, client: client });
     }
     else if (messageObj.action = "SendMessage") {
@@ -72,11 +75,13 @@ wss.broadcastToOne = function (data, exclude) {
   var i = 0, n = CLIENTSWITHIDS.length, client = null;
   if (n < 1) return;
   console.log("Client list has " + n + " WebSocket clients.");
+  console.log(JSON.stringify(CLIENTSWITHIDS))
   for (; i < n; i++) {
     clientObj = CLIENTSWITHIDS[i];
+   
     // don't send the message to the sender...
     //if (client.client === exclude) continue;
-    if (clientObj.ID == data.body.ID && clientObj.client.readyState === clientObj.client.OPEN) clientObj.client.send(JSON.stringify(data));
+    if (clientObj.ID == data.body.ID && clientObj.client&&clientObj.client.readyState === clientObj.client.OPEN) clientObj.client.send(JSON.stringify(data));
     else console.error('Error: the client state is ' + client.readyState);
   }
 };
