@@ -14,6 +14,7 @@ export const ReadQRCode=(props:ReadQRCodeProps)=>{
 
     const handleScan = (data:any) => {
         if (data) {
+          alert(data);
             if(validURL(data))
             {
                 let clientid=data.toLowerCase().indexOf("?pcid=")>-1? data.toLowerCase().split("?pcid=")[1]:null;
