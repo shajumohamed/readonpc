@@ -78,11 +78,21 @@ wss.broadcastToOne = function (data, exclude) {
   console.log(JSON.stringify(CLIENTSWITHIDS))
   for (; i < n; i++) {
     clientObj = CLIENTSWITHIDS[i];
-   
+
     // don't send the message to the sender...
     //if (client.client === exclude) continue;
-    if (clientObj.ID == data.body.ID && clientObj.client&&clientObj.client.readyState === clientObj.client.OPEN) clientObj.client.send(JSON.stringify(data));
-    else console.error('Error: the client state is ' + client.readyState);
+    if (clientObj.ID == data.body.ID) {
+      if (clientObj.client) {
+        if (clientObj.client.readyState === clientObj.client.OPEN) clientObj.client.send(JSON.stringify(data));
+        else console.error('Error: the client state is ' + client.readyState);
+      }
+      else {
+        console.error("clientObj.client  is null or undefined");
+      }
+    }
+    else {
+      console.error("cannot find matching client");
+    }
   }
 };
 
