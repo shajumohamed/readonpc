@@ -82,17 +82,18 @@ wss.broadcastToOne = function (data, exclude) {
     // don't send the message to the sender...
     //if (client.client === exclude) continue;
     if (clientObj.ID == data.body.ID) {
-      if (clientObj.client!=null) {
-        console.log("client is "+JSON.stringify(clientObj.client));
-        if (clientObj.client.readyState === clientObj.client.OPEN) clientObj.client.send(JSON.stringify(data));
-        else console.error('Error: the client state is not open');
+      if (clientObj.client != null) {
+        console.log("client is " + JSON.stringify(clientObj.client));
+        if (clientObj.client.readyState === clientObj.client.OPEN) {
+          clientObj.client.send(JSON.stringify(data));
+        }
+        else {
+          console.error('Error: the client state is not open')
+        }
       }
       else {
         console.error("clientObj.client  is null");
       }
-    }
-    else {
-      console.error("cannot find matching client");
     }
   }
 };
