@@ -5,6 +5,11 @@ import './App.css';
 import { ShowQRCode } from './components/ShowQRCode';
 import { ReadQRCode } from './components/ReadQRCode';
 
+export interface WebSocketMessage{
+  action:string;
+  body:any;
+}
+
 let client:any = null;
 if(process.env.NODE_ENV == 'production')
 {
@@ -19,12 +24,23 @@ function App() {
   const [clientID,setClientID]=React.useState<string>('');
   const [data, setData] = React.useState(null);
   React.useEffect(()=>{
-    setClientID(makeid(10));
+    
     client.onopen = () => {
+      let tempID=makeid(10);
+      setClientID(tempID);
       console.log('WebSocket Client Connected');
+      let sendObj={} as WebSocketMessage;
+      sendObj.action="ClientRegistration";
+      sendObj.body={'ID':tempID};
+      client.send(JSON.stringify(sendObj));
     };
     client.onmessage = (message:any) => {
       console.log(message);
+      let datObj=JSON.parse(message.data);
+      if(datObj.action=="SendMessage")
+      {
+        window.location=datObj.body.link;
+      }
     };
   },[])
 
@@ -37,7 +53,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <ShowQRCode clientId={window.location.origin+"?pcID="+clientID}></ShowQRCode>
-        <ReadQRCode></ReadQRCode>
+        <ReadQRCode client={client}></ReadQRCode>
         {/* <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
@@ -57,6 +73,7 @@ function App() {
 }
 
 function makeid(length:number) {
+  //return "1234567890";
   var result           = '';
   var characters       = 'abcdefghijklmnopqrstuvwxyz0123456789';
   var charactersLength = characters.length;

@@ -5,6 +5,7 @@ const http = require('http');
 const express = require("express");
 var wss = null, sslSrv = null;
 const CLIENTS=[];
+const CLIENTSWITHIDS=[];
 
 const PORT = process.env.PORT || 3001;
 
@@ -47,7 +48,16 @@ wss.on('connection', function (client) {
   /** incomming message */
   client.on('message', function (message) {
     /** broadcast message to all clients */
-    wss.broadcast(message, client);
+    let messageObj=JSON.parse(message);
+    if(messageObj.action=="ClientRegistration")
+    {
+     CLIENTSWITHIDS.push({ID:messageObj.body.ID,client:client});
+    }
+    else if(messageObj.action="SendMessage")
+    {
+      wss.broadcastToOne(messageObj, client);
+    }
+   // wss.broadcast(message, client);
   });
 });
 
@@ -56,16 +66,34 @@ wss.on('error',function(err){
 	console.log(err)});
 
 
-// broadcasting the message to all WebSocket clients.
-wss.broadcast = function (data, exclude) {
-  var i = 0, n = CLIENTS.length , client = null;
+
+
+
+wss.broadcastToOne = function (data, exclude) {
+  var i = 0, n = CLIENTSWITHIDS.length , client = null;
   if (n < 1) return;
-  console.log("Broadcasting message to all " + n + " WebSocket clients.");
+  console.log("Clinet list has " + n + " WebSocket clients.");
   for (; i < n; i++) {
-    client = CLIENTS[i];
+    clientObj = CLIENTSWITHIDS[i];
     // don't send the message to the sender...
-    if (client === exclude) continue;
-    if (client.readyState === client.OPEN) client.send(data);
+    //if (client.client === exclude) continue;
+    if (clientObj.ID==data.body.ID&&clientObj.client.readyState === clientObj.client.OPEN) clientObj.client.send(JSON.stringify(data));
     else console.error('Error: the client state is ' + client.readyState);
   }
 };
+
+
+
+// // broadcasting the message to all WebSocket clients.
+// wss.broadcast = function (data, exclude) {
+//   var i = 0, n = CLIENTS.length , client = null;
+//   if (n < 1) return;
+//   console.log("Broadcasting message to all " + n + " WebSocket clients.");
+//   for (; i < n; i++) {
+//     client = CLIENTS[i];
+//     // don't send the message to the sender...
+//     if (client === exclude) continue;
+//     if (client.readyState === client.OPEN) client.send(data);
+//     else console.error('Error: the client state is ' + client.readyState);
+//   }
+// };

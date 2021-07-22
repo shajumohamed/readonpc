@@ -1,14 +1,16 @@
 import React from 'react';
 import QRCode from "react-qr-code";
 import QrReader from 'react-qr-reader';
+import { w3cwebsocket as W3CWebSocket } from "websocket";
 
 export interface ReadQRCodeProps{
-   
+   client:W3CWebSocket
 }
 
 export const ReadQRCode=(props:ReadQRCodeProps)=>{
     const [result,setResult]=React.useState<string>("");
     const [enableRead,setEnableRead]=React.useState<boolean>(true);
+    const [value,setValue]=React.useState<string>("");
 
     const handleScan = (data:any) => {
         if (data) {
@@ -45,10 +47,29 @@ export const ReadQRCode=(props:ReadQRCodeProps)=>{
           style={{ width: '100%' }}
         />
         }
+        {result!=""&&
+        <>
+          <input type="text" onChange={handleChanged.bind(this)} ></input>
+          <button value="Send" onClick={()=>sendClicked()}></button>
+        </>
+        }
         <p>{result}</p>
      
         </>
     );
+
+
+    function sendClicked()
+      {
+        props.client.send(JSON.stringify({action:"SendMessage",body:{ID:result,link:value}}));
+      }
+    
+
+    function handleChanged (event:any)
+    {
+      var modifiedValue = event.target.value;
+      setValue(modifiedValue);
+    }
 
     function validURL(str:string) {
         var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
