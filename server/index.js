@@ -83,8 +83,9 @@ wss.broadcastToOne = function (data, exclude) {
     //if (client.client === exclude) continue;
     if (clientObj.ID == data.body.ID) {
       if (clientObj.client!=null) {
+        console.log("client is "+JSON.stringify(clientObj.client));
         if (clientObj.client.readyState === clientObj.client.OPEN) clientObj.client.send(JSON.stringify(data));
-        else console.error('Error: the client state is ' + client.readyState);
+        else console.error('Error: the client state is not open');
       }
       else {
         console.error("clientObj.client  is null");
