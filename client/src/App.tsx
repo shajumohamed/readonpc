@@ -22,6 +22,7 @@ function App() {
   const [clientID, setClientID] = React.useState<string>('');
   const [data, setData] = React.useState(null);
   const [scanMode, setScanMode] = React.useState<boolean>(false);
+  const [textValue,setTextValue]=React.useState<string>('');
   React.useEffect(() => {
 
     client.onopen = () => {
@@ -37,7 +38,14 @@ function App() {
       console.log(message);
       let datObj = JSON.parse(message.data);
       if (datObj.action == "SendMessage") {
-        window.location = datObj.body.link;
+        if(validURL(datObj.body.link))
+        {
+          window.location = datObj.body.link;
+        }
+        else
+        {
+          setTextValue(datObj.body.link)
+        }
       }
     };
   }, [])
@@ -59,6 +67,9 @@ function App() {
         <button onClick={() => toggleScanMode()}>{scanMode ? "View Here" : "Send Link From Here"}</button>
         {scanMode &&
           <ReadQRCode client={client}></ReadQRCode>
+        }
+        {textValue&&
+          <textarea>{textValue}</textarea>
         }
         {/* <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -88,6 +99,16 @@ function makeid(length: number) {
       charactersLength));
   }
   return result;
+}
+
+function validURL(str: string) {
+  var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+    '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+  return !!pattern.test(str);
 }
 
 export default App;
