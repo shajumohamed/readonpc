@@ -17,6 +17,7 @@
     "@types/websocket": "^1.0.3",
     "qrcode.react": "^1.0.1",
     "react": "^17.0.2",
+    "react-copy-to-clipboard": "^5.0.3",
     "react-dom": "^17.0.2",
     "react-qr-reader": "^2.2.1",
     "react-scripts": "4.0.3",
@@ -51,5 +52,8 @@
   },
   "engines": {
     "node": "14.x"
+  },
+  "devDependencies": {
+    "@types/react-copy-to-clipboard": "^5.0.1"
   }
 }

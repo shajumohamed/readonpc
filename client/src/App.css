@@ -36,3 +36,28 @@
     transform: rotate(360deg);
   }
 }
+
+.code-snippet {
+  width: 250px;
+  background: #afb3b8;
+  padding: 0.1rem;
+}
+
+.code-section {
+  position: relative;
+  width: 100%;
+}
+
+.code-section pre {
+  font-size: 120%;
+}
+
+.code-section span {
+  position: absolute;
+  right: 0;
+  top: -30px;
+  bottom: 0;
+  font-size: 80%;
+  min-width: 20px;
+  min-height: 20px;
+}

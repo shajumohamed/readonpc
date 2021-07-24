@@ -4,7 +4,8 @@ import logo from './logo.svg';
 import './App.css';
 import { ShowQRCode } from './components/ShowQRCode';
 import { ReadQRCode } from './components/ReadQRCode';
-import { PrimaryButton,Stack,Text } from '@fluentui/react';
+import { FontIcon, Icon, PrimaryButton, Stack, Text } from '@fluentui/react';
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 export interface WebSocketMessage {
   action: string;
@@ -23,7 +24,8 @@ function App() {
   const [clientID, setClientID] = React.useState<string>('');
   const [data, setData] = React.useState(null);
   const [scanMode, setScanMode] = React.useState<boolean>(false);
-  const [textValue,setTextValue]=React.useState<string>('');
+  const [textValue, setTextValue] = React.useState<string>('asdasd');
+  const [isCopied, setIsCopied] = React.useState(false);
   React.useEffect(() => {
 
     client.onopen = () => {
@@ -39,12 +41,10 @@ function App() {
       console.log(message);
       let datObj = JSON.parse(message.data);
       if (datObj.action == "SendMessage") {
-        if(validURL(datObj.body.link))
-        {
+        if (validURL(datObj.body.link)) {
           window.location = datObj.body.link;
         }
-        else
-        {
+        else {
           setTextValue(datObj.body.link)
         }
       }
@@ -60,23 +60,37 @@ function App() {
   function toggleScanMode() {
     setScanMode(!scanMode);
   }
+  const onCopyText = () => {
+    setIsCopied(true);
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 1000);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">      
-      <Stack tokens={{childrenGap:20}}>
-        <Text variant="xxLarge" >Read on PC</Text>
-        {!scanMode && <ShowQRCode clientId={clientID}></ShowQRCode>
-        }
-        <PrimaryButton onClick={() => toggleScanMode()}>{scanMode ? "View Here" : "Send From Here"}</PrimaryButton>
-        {scanMode &&
-          <div style={{width:250}}>
-          <ReadQRCode client={client}></ReadQRCode>
-          </div>
-        }
-        {textValue&&
-          <Text>{textValue}</Text>
-        }
-        {/* <img src={logo} className="App-logo" alt="logo" />
+      <header className="App-header">
+        <Stack tokens={{ childrenGap: 20 }}>
+          <Text variant="xxLarge" >Read on PC</Text>
+          {!scanMode && <ShowQRCode clientId={clientID}></ShowQRCode>
+          }
+          <PrimaryButton onClick={() => toggleScanMode()}>{scanMode ? "View Here" : "Send From Here"}</PrimaryButton>
+          {scanMode &&
+            <div style={{ width: 250 }}>
+              <ReadQRCode client={client}></ReadQRCode>
+            </div>
+          }
+          {textValue &&
+            <div className="code-snippet">
+              <div className="code-section">
+                <pre>{textValue}</pre>
+                <CopyToClipboard text={textValue} onCopy={onCopyText} options={{message:"Copied"}}>
+                  <span>{isCopied ? "Copied!" : "Copy"}</span>
+                </CopyToClipboard>
+              </div>
+            </div>
+          }
+          {/* <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
@@ -89,7 +103,7 @@ function App() {
           Learn React
         </a> */}
         </Stack>
-        </header>
+      </header>
     </div>
   );
 }
