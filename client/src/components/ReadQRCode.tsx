@@ -1,4 +1,4 @@
-import { PrimaryButton, TextField } from '@fluentui/react';
+import { PrimaryButton, Stack, TextField } from '@fluentui/react';
 import React from 'react';
 import QrReader from 'react-qr-reader';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
@@ -45,10 +45,10 @@ export const ReadQRCode = (props: ReadQRCodeProps) => {
         />
       }
       {result != "" &&
-        <>
+        <Stack tokens={{childrenGap:20}}>
           <TextField onChange={handleChanged.bind(this)} multiline resizable={false} />
           <PrimaryButton value="Send" onClick={() => sendClicked()}>Read On PC</PrimaryButton>
-        </>
+        </Stack>
       }
       <p>{result}</p>
 
