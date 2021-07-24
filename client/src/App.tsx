@@ -42,7 +42,8 @@ function App() {
       let datObj = JSON.parse(message.data);
       if (datObj.action == "SendMessage") {
         if (validURL(datObj.body.link)) {
-          window.location = datObj.body.link;
+          
+          window.location = datObj.body.link.indexOf('http')!=0?"http://"+datObj.body.link:datObj.body.link;
         }
         else {
           setTextValue(datObj.body.link)
@@ -51,11 +52,11 @@ function App() {
     };
   }, [])
 
-  React.useEffect(() => {
-    fetch("/api")
-      .then((res) => res.json())
-      .then((data) => { setData(data.message); console.log(data) });
-  }, []);
+  // React.useEffect(() => {
+  //   fetch("/api")
+  //     .then((res) => res.json())
+  //     .then((data) => { setData(data.message); console.log(data) });
+  // }, []);
 
   function toggleScanMode() {
     setScanMode(!scanMode);
