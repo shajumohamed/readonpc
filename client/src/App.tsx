@@ -64,11 +64,12 @@ function App() {
     <div className="App">
       <header className="App-header">      
       <Stack tokens={{childrenGap:20}}>
+        <Text variant="xxLarge" >Read on PC</Text>
         {!scanMode && <ShowQRCode clientId={clientID}></ShowQRCode>
         }
         <PrimaryButton onClick={() => toggleScanMode()}>{scanMode ? "View Here" : "Send From Here"}</PrimaryButton>
         {scanMode &&
-          <div style={{maxWidth:500,minWidth:200}}>
+          <div style={{width:250}}>
           <ReadQRCode client={client}></ReadQRCode>
           </div>
         }

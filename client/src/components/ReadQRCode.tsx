@@ -1,6 +1,5 @@
 import { PrimaryButton, TextField } from '@fluentui/react';
 import React from 'react';
-import QRCode from "react-qr-code";
 import QrReader from 'react-qr-reader';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 
