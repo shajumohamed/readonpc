@@ -36,21 +36,23 @@ export const ReadQRCode = (props: ReadQRCodeProps) => {
 
   return (
     <>
-      {enableRead &&
-        <QrReader showViewFinder={false}
-          delay={300}
-          onError={handleError}
-          onScan={handleScan}
-          style={{ width: '100%' }}
-        />
-      }
-      {result != "" &&
-        <Stack tokens={{childrenGap:20}}>
-          <TextField onChange={handleChanged.bind(this)} multiline resizable={false} />
-          <PrimaryButton value="Send" onClick={() => sendClicked()}>Read On PC</PrimaryButton>
-        </Stack>
-      }
-      <p>{result}</p>
+      <Stack tokens={{ childrenGap: 20 }}>
+        {enableRead &&
+          <QrReader showViewFinder={false}
+            delay={300}
+            onError={handleError}
+            onScan={handleScan}
+            style={{ width: '100%' }}
+          />
+        }
+        {result != "" &&
+          <Stack tokens={{ childrenGap: 20 }}>
+            <TextField onChange={handleChanged.bind(this)} multiline resizable={false} />
+            <PrimaryButton value="Send" onClick={() => sendClicked()}>Read On PC</PrimaryButton>
+          </Stack>
+        }
+        <p>{result}</p>
+      </Stack>
 
     </>
   );
