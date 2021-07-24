@@ -93,7 +93,7 @@ function App() {
           </div>
           <PrimaryButton onClick={() => toggleScanMode()}>{scanMode ? "View Here" : "Send From Here"}</PrimaryButton>
           {scanMode &&
-            <div style={{ width: 300 }}>
+            <div style={{alignItems:"center", width: 300 }}>
               <ReadQRCode client={client}></ReadQRCode>
             </div>
           }
