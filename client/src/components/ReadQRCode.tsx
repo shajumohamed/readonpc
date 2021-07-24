@@ -1,3 +1,4 @@
+import { PrimaryButton, TextField } from '@fluentui/react';
 import React from 'react';
 import QRCode from "react-qr-code";
 import QrReader from 'react-qr-reader';
@@ -37,7 +38,7 @@ export const ReadQRCode = (props: ReadQRCodeProps) => {
   return (
     <>
       {enableRead &&
-        <QrReader
+        <QrReader showViewFinder={false}
           delay={300}
           onError={handleError}
           onScan={handleScan}
@@ -46,8 +47,8 @@ export const ReadQRCode = (props: ReadQRCodeProps) => {
       }
       {result != "" &&
         <>
-          <textarea onChange={handleChanged.bind(this)} ></textarea>
-          <button value="Send" onClick={() => sendClicked()}>Read On PC</button>
+          <TextField onChange={handleChanged.bind(this)} multiline resizable={false} />
+          <PrimaryButton value="Send" onClick={() => sendClicked()}>Read On PC</PrimaryButton>
         </>
       }
       <p>{result}</p>

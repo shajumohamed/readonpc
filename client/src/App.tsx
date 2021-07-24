@@ -4,6 +4,7 @@ import logo from './logo.svg';
 import './App.css';
 import { ShowQRCode } from './components/ShowQRCode';
 import { ReadQRCode } from './components/ReadQRCode';
+import { PrimaryButton,Stack,Text } from '@fluentui/react';
 
 export interface WebSocketMessage {
   action: string;
@@ -61,15 +62,18 @@ function App() {
   }
   return (
     <div className="App">
-      <header className="App-header">
+      <header className="App-header">      
+      <Stack tokens={{childrenGap:20}}>
         {!scanMode && <ShowQRCode clientId={clientID}></ShowQRCode>
         }
-        <button onClick={() => toggleScanMode()}>{scanMode ? "View Here" : "Send Link From Here"}</button>
+        <PrimaryButton onClick={() => toggleScanMode()}>{scanMode ? "View Here" : "Send From Here"}</PrimaryButton>
         {scanMode &&
+          <div style={{maxWidth:500,minWidth:200}}>
           <ReadQRCode client={client}></ReadQRCode>
+          </div>
         }
         {textValue&&
-          <textarea>{textValue}</textarea>
+          <Text>{textValue}</Text>
         }
         {/* <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -83,8 +87,8 @@ function App() {
         >
           Learn React
         </a> */}
-      </header>
-
+        </Stack>
+        </header>
     </div>
   );
 }
