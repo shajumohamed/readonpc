@@ -77,7 +77,7 @@ function App() {
           </div>
           }
           <div style={{textAlign:"start",fontSize:15}}>
-          <h4>Target Device Device</h4>
+          <h4>Target Device </h4>
           <ul>
             <li>Open the URL</li>
           </ul>
@@ -93,7 +93,7 @@ function App() {
           </div>
           <PrimaryButton onClick={() => toggleScanMode()}>{scanMode ? "View Here" : "Send From Here"}</PrimaryButton>
           {scanMode &&
-            <div style={{ width: 250 }}>
+            <div style={{ width: 300 }}>
               <ReadQRCode client={client}></ReadQRCode>
             </div>
           }
