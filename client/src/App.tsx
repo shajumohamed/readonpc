@@ -72,8 +72,25 @@ function App() {
       <header className="App-header">
         <Stack tokens={{ childrenGap: 20 }}>
           <Text variant="xxLarge" >Read on PC</Text>
-          {!scanMode && <ShowQRCode clientId={clientID}></ShowQRCode>
+          {!scanMode && 
+          <div style={{alignItems:"center"}}><ShowQRCode clientId={clientID}></ShowQRCode>
+          </div>
           }
+          <div style={{textAlign:"start",fontSize:15}}>
+          <h4>Target Device Device</h4>
+          <ul>
+            <li>Open the URL</li>
+          </ul>
+          <h4>Source Device</h4>
+          <ul>
+            <li>Open the URL</li>
+            <li>hit "Send From Here" button</li>
+            <li>scan this QR displayed in target device </li>
+            <li>enter the text/URL to be send</li>
+            <li>hit "Read on PC" button</li>
+
+          </ul>
+          </div>
           <PrimaryButton onClick={() => toggleScanMode()}>{scanMode ? "View Here" : "Send From Here"}</PrimaryButton>
           {scanMode &&
             <div style={{ width: 250 }}>
