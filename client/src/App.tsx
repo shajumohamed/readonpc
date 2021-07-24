@@ -24,7 +24,7 @@ function App() {
   const [clientID, setClientID] = React.useState<string>('');
   const [data, setData] = React.useState(null);
   const [scanMode, setScanMode] = React.useState<boolean>(false);
-  const [textValue, setTextValue] = React.useState<string>('asdasd');
+  const [textValue, setTextValue] = React.useState<string>('');
   const [isCopied, setIsCopied] = React.useState(false);
   React.useEffect(() => {
 
