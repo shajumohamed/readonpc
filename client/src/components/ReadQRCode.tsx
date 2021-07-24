@@ -51,7 +51,7 @@ export const ReadQRCode = (props: ReadQRCodeProps) => {
             <PrimaryButton value="Send" onClick={() => sendClicked()}>Read On PC</PrimaryButton>
           </Stack>
         }
-        <p>{result}</p>
+        {/* <p>{result}</p> */}
       </Stack>
 
     </>
