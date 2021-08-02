@@ -1,6 +1,7 @@
 import React from 'react';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import logo from './logo.svg';
+import linkedIn from './linkedin.svg';
 import './App.css';
 import { ShowQRCode } from './components/ShowQRCode';
 import { ReadQRCode } from './components/ReadQRCode';
@@ -71,13 +72,17 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Stack tokens={{ childrenGap: 20 }}>
+        <Stack tokens={{ childrenGap: 20 }} horizontalAlign="center">
           <Text variant="xxLarge" >Read on PC</Text>
+          <Text variant="large">This application can be used to send links and text between two devices. </Text>
+          <Text variant="large">Links will auto open on the target device.</Text>
           {!scanMode && 
           <div style={{alignItems:"center"}}><ShowQRCode clientId={clientID}></ShowQRCode>
           </div>
           }
+           <Stack tokens={{ childrenGap: 20 }} style={{maxWidth:300}} >
           <div style={{textAlign:"start",fontSize:15}}>
+         
           <h4>Target Device </h4>
           <ul>
             <li>Open the URL</li>
@@ -108,6 +113,7 @@ function App() {
               </div>
             </div>
           }
+           </Stack>
           {/* <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
@@ -122,6 +128,19 @@ function App() {
         </a> */}
         </Stack>
       </header>
+      <footer>
+       <div style={{padding:20,backgroundColor:"#eff6fc"}}>
+         <Stack tokens={{childrenGap:20}}>
+           <Text>The project was quickly put together to achieve the functionality. Need UI and other optimization. Let me know of any issues at the contact details below.</Text>
+           <Stack horizontal wrap horizontalAlign="center" verticalAlign="center" tokens={{childrenGap:20}}>
+          <Text>Created By Shaju Mohammed</Text>
+          <a target="_blank" href="https://www.linkedin.com/in/shaju-mohammed-a6452243/"><img src={linkedIn} height="40"></img></a>          
+          <a target="_blank" href="https://github.com/shajumohamed/readonpc">Fork this on GitHub</a>
+        </Stack>
+         </Stack>
+        
+        </div>
+      </footer>
     </div>
   );
 }
