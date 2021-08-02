@@ -72,7 +72,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Stack tokens={{ childrenGap: 20 }} horizontalAlign="center">
+        <Stack tokens={{ childrenGap: 10 }} horizontalAlign="center" style={{paddingBottom:20}}>
           <Text variant="xxLarge" >Read on PC</Text>
           <Text variant="large">This application can be used to send links and text between two devices. </Text>
           <Text variant="large">Links will auto open on the target device.</Text>
@@ -80,7 +80,7 @@ function App() {
           <div style={{alignItems:"center"}}><ShowQRCode clientId={clientID}></ShowQRCode>
           </div>
           }
-           <Stack tokens={{ childrenGap: 20 }} style={{maxWidth:300}} >
+           <Stack tokens={{ childrenGap: 10 }} style={{maxWidth:300}} >
           <div style={{textAlign:"start",fontSize:15}}>
          
           <h4>Target Device </h4>
@@ -127,11 +127,10 @@ function App() {
           Learn React
         </a> */}
         </Stack>
-      </header>
-      <footer>
-       <div style={{padding:20,backgroundColor:"#eff6fc"}}>
+        <div style={{padding:20,backgroundColor:"#eff6fc",maxWidth:700}}>
          <Stack tokens={{childrenGap:20}}>
-           <Text>The project was quickly put together to achieve the functionality. Need UI and other optimization. Let me know of any issues at the contact details below.</Text>
+           <Text>The project was quickly put together to achieve the functionality. Needs UI and other optimization.</Text>
+           <Text>Let me know of any issues at the contact details below.</Text>
            <Stack horizontal wrap horizontalAlign="center" verticalAlign="center" tokens={{childrenGap:20}}>
           <Text>Created By Shaju Mohammed</Text>
           <a target="_blank" href="https://www.linkedin.com/in/shaju-mohammed-a6452243/"><img src={linkedIn} height="40"></img></a>          
@@ -140,7 +139,7 @@ function App() {
          </Stack>
         
         </div>
-      </footer>
+      </header>     
     </div>
   );
 }
