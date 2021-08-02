@@ -132,7 +132,7 @@ function App() {
            <Text>The project was quickly put together to achieve the functionality. Needs UI and other optimization.</Text>
            <Text>Let me know of any issues at the contact details below.</Text>
            <Stack horizontal wrap horizontalAlign="center" verticalAlign="center" tokens={{childrenGap:20}}>
-          <Text>Created By Shaju Mohammed</Text>
+          <Text>Created by Shaju Mohammed</Text>
           <a target="_blank" href="https://www.linkedin.com/in/shaju-mohammed-a6452243/"><img src={linkedIn} height="40"></img></a>          
           <a target="_blank" href="https://github.com/shajumohamed/readonpc">Fork this on GitHub</a>
         </Stack>
